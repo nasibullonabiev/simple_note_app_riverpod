@@ -12,14 +12,11 @@ class NoteListPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notes = ref.watch(notesProvider);
-    return Scaffold(
-      backgroundColor: Colors.purple.shade100,
-      appBar: AppBar(
-        backgroundColor: Colors.purple.shade100,
-
-        title: Text("Notes"),
-      ),
-      body: ListView.builder(
+    Widget content = Center(
+        child: Text('Notes did not added yet!')
+    );
+    if (notes.isNotEmpty) {
+      content = ListView.builder(
         itemCount: notes.length,
         itemBuilder: (context, index) {
           final note = notes[index];
@@ -30,7 +27,8 @@ class NoteListPage extends ConsumerWidget {
               title: Text(note.title),
               subtitle: Text(note.content),
               onTap:
-                  () => Navigator.push(
+                  () =>
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => NoteDetailPage(note: note),
@@ -44,16 +42,25 @@ class NoteListPage extends ConsumerWidget {
             ),
           );
         },
+      );
+    }
+    return Scaffold(
+      backgroundColor: Colors.purple.shade100,
+      appBar: AppBar(
+        backgroundColor: Colors.purple.shade100,
+
+        title: Text("Notes"),
       ),
+      body: content,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.amber,
-        onPressed:
-            () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddEditNotePage()),
-            ),
-        child: Icon(Icons.add),
-      ),
-    );
+      backgroundColor: Colors.amber,
+      onPressed:
+          () =>
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddEditNotePage()),
+          ),
+      child: Icon(Icons.add),
+    ),);
   }
 }
